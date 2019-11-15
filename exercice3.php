@@ -26,6 +26,7 @@ $ListeOeuvre2 = [
 $ListeEmprunt = [
 	new Emprunt($ListeOeuvre1, new \DateTime("2019-06-12"), new \DateTime("2019-06-26"), new \DateTime("2019-06-21"))
 	new Emprunt($ListeOeuvre2, new \DateTime("2019-09-22"), new \DateTime("2019-10-06"), new \DateTime("2019-09-04"))
+	new Emprunt($ListeOeuvre3, new \DateTime("2019-03-01"), new \DateTime("2019-03-15"), new \DateTime("2019-03-04"))
 ]
 $Adherent = new Adherent(
 	"Nom Test", 
