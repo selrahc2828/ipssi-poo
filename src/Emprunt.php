@@ -24,6 +24,9 @@ class Emprunt{
 				throw new OeuvrePlusDispo('L\'oeuvre "' . $uneOeuvre->getNomOeuvre() . '" à emprunter n\'est plus disponible');
 			}
 		}
+		foreach ($listeOeuvre as $uneOeuvre) {
+			$uneOeuvre->EmpruntOeuvre();
+		}
 		//Dans le cas ou aucune erreur ne s'est déclenché, le constructeur se poursuit
 		$this->listeOeuvre = $listeOeuvre;
 		$this->dateEmprunt = $dateEmprunt;
@@ -31,7 +34,12 @@ class Emprunt{
 		$this->dateRenduTH = $dateEmprunt->add(new \DateInterval('P14D'));//ajout de 14 jour
 		//On test si la date de rendu n'est pas avant la date d'emprunt
 		if($dateRenduEFF > $dateEmprunt){
-			$this->dateRenduEFF = $dateRenduEFF;
+			if($dateRenduEFF != NULL) {
+				foreach ($listeOeuvre as $uneOeuvre) {
+					$uneOeuvre->RenduOeuvre();
+				}
+				$this->dateRenduEFF = $dateRenduEFF;
+			}
 		}else {
 			//si c'est la cas, on déclenche l'erreur RenduAvantEmprunt
 			throw new RenduAvantEmprunt("La date de rendu doit être posterieur à celle d'emprunt");
@@ -62,7 +70,10 @@ class Emprunt{
 	//fonction pour ajouter la date de rendu de l'emprunt
 	public function Rendu(\DateTimeInterface $dateRenduEFF){
 		//On teste ici aussi la date de rendu
-		if($dateRenduEFF > $this->dateEmprunt){
+		if($dateRenduEFF > $dateEmprunt){
+			foreach ($listeOeuvre as $uneOeuvre) {
+				$uneOeuvre->RenduOeuvre();
+			}
 			$this->dateRenduEFF = $dateRenduEFF;
 		}else {
 			//si c'est la cas, on déclenche l'erreur RenduAvantEmprunt
