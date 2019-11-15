@@ -67,7 +67,7 @@ echo "Il possede :" . PHP_EOL;
 
 foreach ($document1->getListeTexte() as $UnTexte) {
 	echo 'Le texte : "' . $UnTexte->getTexte() . '" de couleur ' . $UnTexte->getCouleurTexte();
-	echo "aux coordonées : " . PHP_EOL . "    X=" . $UnTexte->getCoordX() . PHP_EOL . "    Y=" . $UnTexte->getCoordY() . PHP_EOL;
+	echo " aux coordonées : " . PHP_EOL . "    X=" . $UnTexte->getCoordX() . PHP_EOL . "    Y=" . $UnTexte->getCoordY() . PHP_EOL;
 }
 echo PHP_EOL . "Ainsi que:" . PHP_EOL;
 foreach ($document1->getListeForme() as $UneForme) {
@@ -77,5 +77,5 @@ foreach ($document1->getListeForme() as $UneForme) {
 echo PHP_EOL . "Et enfin :" . PHP_EOL;
 foreach ($document1->getListeImage() as $UneImage) {
 	echo 'L\'Image : "' . $UneImage->getNomImage();
-	echo "aux coordonées : " . PHP_EOL . "    X=" . $UneImage->getCoordX() . PHP_EOL . "    Y=" . $UneImage->getCoordY() . PHP_EOL;
+	echo " aux coordonées : " . PHP_EOL . "    X=" . $UneImage->getCoordX() . PHP_EOL . "    Y=" . $UneImage->getCoordY() . PHP_EOL;
 }

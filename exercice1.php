@@ -11,7 +11,11 @@ class Diviseur {
 
         if($index >= count($valeurs))
         {
-        	throw new TailleTableauException("L'indice que vous avez entré n'est pas présent dnas le tableau");
+        	throw new TailleTableauException("L'indice que vous avez entré n'est pas présent dans le tableau");
+        }
+        if($index < 0)
+        {
+        	throw new TailleTableauException("L'indice que vous avez entré n'est pas présent dans le tableau");
         }
         if($diviseur === 0)
         {

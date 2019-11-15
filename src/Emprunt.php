@@ -10,16 +10,32 @@ class Emprunt{
 	private $dateRenduTH;
 	private $dateRenduEFF;
 
+	//Un emprunt est constitué d'une liste d'oeuvre emprunté, d'une date d'emprunt, d'une date de rendu prévu (14 jours plus tard) et d'une date de rendu réelle (Cette derniere sert aussi a détécter si l'emprunt à été rendu ou non)
 	public function __construct(
-		array $listeOeuvre=[],
-		\DateTimeInterface $dateEmprunt=new \DateTime(),
-		\DateTimeInterface $dateRenduTH=new \DateTime()->add(new \DateInterval('P14D')),
-		$dateRenduEFF=NULL
+		array $listeOeuvre = array(),
+		\DateTimeInterface $dateEmprunt,
+		$dateRenduEFF = NULL
 	){
+		//On parcour la liste des oeuvres pour tester le nombre en stock de chacune
+		foreach ($listeOeuvre as $uneOeuvre) {
+			//ici on test si l'oeuvre est présente en stock
+			if($uneOeuvre->getQuantiteOeuvre() <= 0){
+				//Si ce n'est pas le cas, o déclenche l'erreur OeuvrePlusDispo
+				throw new OeuvrePlusDispo('L\'oeuvre "' . $uneOeuvre->getNomOeuvre() . '" à emprunter n\'est plus disponible');
+			}
+		}
+		//Dans le cas ou aucune erreur ne s'est déclenché, le constructeur se poursuit
 		$this->listeOeuvre = $listeOeuvre;
 		$this->dateEmprunt = $dateEmprunt;
-		$this->dateRenduTH = $dateRenduTH;
-		$this->dateRenduEFF = $dateRenduEFF;
+		//Cette ligne prend automatiquement la date d'emprunt et ajoute 14 jours pour générer la date de rendu prévu
+		$this->dateRenduTH = $dateEmprunt->add(new \DateInterval('P14D'));//ajout de 14 jour
+		//On test si la date de rendu n'est pas avant la date d'emprunt
+		if($dateRenduEFF > $dateEmprunt){
+			$this->dateRenduEFF = $dateRenduEFF;
+		}else {
+			//si c'est la cas, on déclenche l'erreur RenduAvantEmprunt
+			throw new RenduAvantEmprunt("La date de rendu doit être posterieur à celle d'emprunt");
+		}
 	}
 
 	public function getListeOeuvre(): array{
@@ -38,7 +54,19 @@ class Emprunt{
 		return $this->dateRenduEFF;
 	}
 
+	//Fonction pour ajouter une oeuvre a la liste des oeuvre emprunté
 	public function AjoutOeuvre(Oeuvre $oeuvre){
 		array_push($this->listeOeuvre, $oeuvre);
+	}
+
+	//fonction pour ajouter la date de rendu de l'emprunt
+	public function Rendu(\DateTimeInterface $dateRenduEFF){
+		//On teste ici aussi la date de rendu
+		if($dateRenduEFF > $this->dateEmprunt){
+			$this->dateRenduEFF = $dateRenduEFF;
+		}else {
+			//si c'est la cas, on déclenche l'erreur RenduAvantEmprunt
+			throw new RenduAvantEmprunt("La date de rendu doit être posterieur à celle d'emprunt");
+		}
 	}
 }
