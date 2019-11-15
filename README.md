@@ -31,4 +31,4 @@ Soit un document dans lequel on peut insérer des éléments.
 - On peut modifier la couleur des éléments texte et forme ainsi que la couleur du document
 - Une couleur est exprimé en RGB
 
-Faire les class nécessaire.
+Faire les class nécessaire pour pouvoir afficher un compte rendu complet de la composition d'un document.
